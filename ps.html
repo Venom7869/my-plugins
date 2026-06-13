@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Venoms Minecraft Store (VMS) — Free and premium Minecraft plugins, resource packs, and mods. Download CustomArmorFree, JoinLeaveFX, Venom's CCTV, and more.">
+    <title>Venoms Minecraft Store (VMS) | Premium Minecraft Resources</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0f111a;
+            --bg-card: #151824;
+            --bg-secondary: #1e2235;
+            --accent-green: #00ff66;
+            --accent-blue: #00bfff;
+            --text-main: #ffffff;
+            --text-muted: #8b949e;
+            --border-color: #21262d;
+            --danger: #f43f5e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar Styling with New VMS Neon Logo Support */
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 102, 0.4));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.08) rotate(-2deg);
+            filter: drop-shadow(0 0 16px rgba(0, 255, 102, 0.7));
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .discord-btn {
+            background-color: #5865F2;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .discord-btn:hover {
+            background-color: #4752c4;
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .auth-btn {
+            background-color: transparent;
+            border: 2px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background-color: var(--accent-green);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+        }
+
+        .discord-btn {
+            background-color: #5865F2;
+            border: 2px solid #5865F2;
+            color: #ffffff;
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.5);
+        }
+
+        .user-tag {
+            color: var(--accent-blue);
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 5% 2rem 5%;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(21,24,36,1) 0%, rgba(15,17,26,1) 100%);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+            text-shadow: 0 0 30px rgba(0, 255, 102, 0.15);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto 1.5rem auto;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3rem;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar:focus { border-color: var(--accent-green); box-shadow: 0 0 20px rgba(0, 255, 102, 0.15); }
+        .search-bar:hover { border-color: var(--accent-blue); }
+        .search-container i {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* Category Filter Row */
+        .category-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 0 1rem;
+        }
+
+        .category-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-box:hover {
+            border-color: var(--accent-blue);
+            color: var(--text-main);
+            transform: translateY(-2px);
+        }
+
+        .category-box.active {
+            background-color: rgba(0, 255, 102, 0.1);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.15);
+        }
+
+        /* Featured Server Ad Banner */
+        .ad-banner {
+            margin: 0 5% 2rem 5%;
+            background: linear-gradient(120deg, rgba(0,255,102,0.08), rgba(0,191,255,0.08));
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0,255,102,0.15), transparent 70%);
+            pointer-events: none;
+        }
+
+        .ad-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ad-logo {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 14px;
+            background-color: #0a0c12;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.25);
+            flex-shrink: 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .ad-logo:hover {
+            transform: scale(1.06) rotate(-2deg);
+            box-shadow: 0 0 30px rgba(0, 255, 102, 0.4);
+        }
+
+        .ad-text { flex: 1; min-width: 260px; }
+
+        .custom-request-wrapper {
+            margin: 0 5% 3rem 5%;
+            text-align: center;
+        }
+
+        .custom-request-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.9rem 1.8rem;
+            border: 2px dashed var(--border-color);
+            border-radius: 10px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .custom-request-btn:hover {
+            border-color: var(--accent-blue);
+            border-style: solid;
+            color: var(--accent-blue);
+            background: rgba(0, 191, 255, 0.06);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 191, 255, 0.15);
+        }
+
+        .ad-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
+        }
+
+        .ad-text h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .ad-text p {
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        .join-now-btn {
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .join-now-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(0, 255, 102, 0.35);
+        }
+
+        /* Main Grid Content Area */
+        .container {
+            padding: 2rem 5%;
+            flex: 1;
+        }
+
+        .store-section { margin-bottom: 4rem; }
+
+        .section-header {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title {
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #activeCategoryLabel {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: rgba(0, 191, 255, 0.1);
+            padding: 2px 10px;
+            border-radius: 4px;
+        }
+
+        .plugin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        /* Card Layout Styling with Custom Plugin Icon Feature */
+        .plugin-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .plugin-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 12px 30px rgba(0, 191, 255, 0.15);
+        }
+
+        .plugin-card:hover .plugin-card-icon {
+            transform: scale(1.06);
+            border-color: var(--accent-blue);
+        }
+
+        .plugin-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .plugin-card-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .plugin-card:hover .view-details-txt {
+            color: var(--accent-green);
+        }
+
+        .view-details-txt {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .plugin-card-title-block {
+            flex: 1;
+        }
+
+        .plugin-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--text-main);
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .tag-free { background-color: rgba(0, 255, 102, 0.15); color: var(--accent-green); }
+        .tag-paid { background-color: rgba(0, 191, 255, 0.15); color: var(--accent-blue); }
+
+        .plugin-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+        }
+
+        .plugin-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .downloads {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .view-details-txt {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .no-plugins {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 4rem 2rem;
+            grid-column: 1 / -1;
+            border: 2px dashed var(--border-color);
+            border-radius: 10px;
+        }
+
+        /* --- MODRINTH STYLE DESCRIPTION PAGE MODAL --- */
+        .page-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 6, 10, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 500;
+            opacity: 0;
+            pointer-events: none;
+            overflow-y: auto;
+            padding: 2.5rem 1rem;
+            transition: opacity 0.25s ease;
+        }
+
+        .page-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .project-page {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 960px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .project-header-banner {
+            background: linear-gradient(135deg, #161b22 0%, #0f111a 100%);
+            padding: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .modal-main-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-dark);
+        }
+
+        .project-title-area h2 {
+            font-size: 2rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .project-meta-badges {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .meta-badge {
+            font-size: 0.8rem;
+            padding: 3px 10px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-muted);
+        }
+
+        .page-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .page-close-btn:hover { color: white; background: rgba(255,255,255,0.15); }
+
+        .project-content-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            padding: 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .project-content-layout { grid-template-columns: 1fr; }
+        }
+
+        .description-body {
+            color: #e6edf3;
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .description-body h3 {
+            color: white;
+            margin: 1.8rem 0 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .description-body p { margin-bottom: 1rem; }
+
+        .description-body ul, .description-body ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .description-body li { margin-bottom: 0.5rem; }
+        .description-body code {
+            background-color: var(--bg-dark);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--accent-blue);
+        }
+
+        /* Modrinth-style Sticky Sidebar panel */
+        .project-sidebar {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .sidebar-download-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--accent-green);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .sidebar-download-btn:hover {
+            opacity: 1;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 255, 102, 0.35);
+        }
+
+        .sidebar-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: padding-left 0.2s ease;
+        }
+        .sidebar-info-row:hover {
+            padding-left: 6px;
+            color: var(--accent-blue);
+        }
+        .sidebar-info-row:last-child { border-bottom: none; }
+        .info-label { color: var(--text-muted); }
+        .info-value { color: white; font-weight: 500; }
+
+        .plugin-tag {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .plugin-card:hover .plugin-tag {
+            transform: scale(1.05);
+        }
+
+        /* General Authentication Modal System */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 420px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+
+        .modal-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-green);
+            border-bottom: 2px solid var(--accent-green);
+            background-color: var(--bg-card);
+        }
+
+        .modal-body { padding: 2rem; }
+        .form-panel { display: none; }
+        .form-panel.active { display: block; }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: white;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus { border-color: var(--accent-green); }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 38px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        /* Captcha Structure */
+        .captcha-container {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            padding: 0.8rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+        }
+
+        .captcha-box {
+            background: linear-gradient(135deg, #1e2235 0%, #2a304d 100%);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 1.3rem;
+            letter-spacing: 5px;
+            color: var(--accent-green);
+            font-style: italic;
+            user-select: none;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-decoration: line-through;
+        }
+
+        .refresh-captcha {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--accent-green);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .form-error {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 0.4rem;
+            display: none;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* Expanded Team / Owner Layout Setup */
+        .owner-section {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 5%;
+            text-align: center;
+        }
+
+        .owner-section h2 { margin-bottom: 0.5rem; }
+        .owner-subtitle { color: var(--text-muted); margin-bottom: 2rem; font-size: 1rem; }
+
+        .team-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .owner-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 1.8rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            min-width: 340px;
+            flex: 1;
+            max-width: 400px;
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+
+        .owner-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .owner-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--bg-dark);
+            transition: transform 0.3s ease;
+        }
+
+        .owner-card:hover .owner-avatar {
+            transform: rotate(8deg) scale(1.08);
+        }
+
+        .avatar-lead { background: linear-gradient(45deg, var(--accent-green), var(--accent-blue)); }
+        .avatar-co { background: linear-gradient(45deg, #ff007f, #7f00ff); }
+
+        .owner-info { text-align: left; }
+        .owner-role { font-size: 0.75rem; color: var(--accent-blue); text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
+        .owner-role.co { color: #ff007f; }
+        .owner-name { font-size: 1.35rem; font-weight: bold; margin: 0.1rem 0; }
+        .owner-discord { color: #5865F2; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-dark);
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-discord {
+            color: #5865F2;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-discord:hover { opacity: 0.75; }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--danger);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(120%); }
+            to { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1> VMS </h1>
+            <img src="vms_logo.png" alt="VMS Logo" class="logo-img">
+        </div>
+        <div class="nav-actions">
+            <a href="https://discord.gg/vms" target="_blank" class="discord-btn"><i class="fa-brands fa-discord"></i> Discord</a>
+            <span class="user-tag" id="userDisplay"><i class="fa-solid fa-user"></i> <span id="usernameVal"></span></span>
+            <button class="auth-btn" id="authNavBtn" onclick="openAuthModal()">Sign In / Register</button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Venoms Minecraft Store</h1>
+        
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-bar" id="searchBar" placeholder="Search resources..." onkeyup="filterItems()">
+        </div>
+
+        <div class="category-wrapper">
+            <button class="category-box active" onclick="selectCategory('all', this)"><i class="fa-solid fa-border-all"></i> All Items</button>
+            <button class="category-box" onclick="selectCategory('plugins', this)"><i class="fa-solid fa-plug"></i> Plugins</button>
+            <button class="category-box" onclick="selectCategory('mods', this)"><i class="fa-solid fa-gear"></i> Mods</button>
+            <button class="category-box" onclick="selectCategory('modpacks', this)"><i class="fa-solid fa-box-archive"></i> Modpacks</button>
+            <button class="category-box" onclick="selectCategory('resourcepacks', this)"><i class="fa-solid fa-palette"></i> Resource Packs</button>
+        </div>
+    </section>
+
+    <section class="ad-banner">
+        <div class="ad-content">
+            <img src="blytzsmp.png" alt="Blytz SMP Logo" class="ad-logo">
+            <div class="ad-text">
+                <div class="ad-tag"><i class="fa-solid fa-fire"></i> FEATURED SERVER</div>
+                <h2>Blytz SMP</h2>
+                <p>A fast-paced, community-driven Survival Multiplayer experience — PVP, custom plugins, events, and an awesome community waiting for you. Come build, trade, and survive with us!</p>
+            </div>
+            <a href="https://discord.gg/dAJnZmXyh" target="_blank" class="join-now-btn">
+                <i class="fa-brands fa-discord"></i> JOIN NOW
+            </a>
+        </div>
+    </section>
+
+    <div class="custom-request-wrapper">
+        <a href="https://discord.gg/vms" target="_blank" class="custom-request-btn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Have a custom request? Click here
+        </a>
+    </div>
+
+    <main class="container">
+        <section class="store-section">
+            <div class="section-header">
+                <div class="section-title"><i class="fa-solid fa-cubes"></i> Marketplace Inventory</div>
+                <div id="activeCategoryLabel">All Items</div>
+            </div>
+            <div class="plugin-grid" id="inventory-grid"></div>
+        </section>
+    </main>
+
+    <div class="page-overlay" id="projectPageOverlay" onclick="closeProjectPage(event)">
+        <div class="project-page" onclick="event.stopPropagation()">
+            <button class="page-close-btn" onclick="closeProjectPage(null)">&times;</button>
+            
+            <div class="project-header-banner">
+                <img id="modalProjectIcon" src="" alt="Resource Icon" class="modal-main-icon">
+                <div class="project-title-area">
+                    <h2 id="modalProjectName">Resource Name</h2>
+                    <div class="project-meta-badges">
+                        <span class="meta-badge" id="modalProjectCategory"><i class="fa-solid fa-plug"></i> Plugin</span>
+                        <span class="meta-badge" id="modalProjectLicense"><i class="fa-solid fa-certificate"></i> Free</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-content-layout">
+                <div class="description-body" id="modalProjectDescription">
+                    </div>
+
+                <div class="project-sidebar">
+                    <a href="#" id="modalDownloadBtn" class="sidebar-download-btn" download>
+                        <i class="fa-solid fa-download"></i> Download Now
+                    </a>
+                    
+                    <div class="sidebar-info-row">
+                        <span class="info-label">Status</span>
+                        <span class="info-value" style="color: var(--accent-green);">Stable / Active</span>
+                    </div>
+                    <div class="sidebar-info-row">
+                        <span class="info-label">Supported Versions</span>
+                        <span class="info-value">1.21.11</span>
+                    </div>
+                    <div class="sidebar-info-row">
+                        <span class="info-label">Total Downloads</span>
+                        <span class="info-value" id="modalProjectDownloads">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="authModal" onclick="closeAuthModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeAuthModal(null)">&times;</button>
+            <div class="modal-tabs">
+                <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Log In</button>
+                <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Register</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-panel active" id="panel-login">
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label>Username or Email</label>
+                            <input type="text" id="loginUser" required placeholder="Enter username or email">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="loginPass" required placeholder="••••••••">
+                            <i class="fa-solid fa-eye password-toggle" onclick="togglePasswordVisibility('loginPass', this)"></i>
+                            <div class="form-error" id="loginError">Invalid credentials.</div>
+                        </div>
+                        
+                        <div class="captcha-container">
+                            <div class="captcha-box" id="loginCaptchaText">XXXX</div>
+                            <button type="button" class="refresh-captcha" onclick="generateCaptcha('login')"><i class="fa-solid fa-rotate-right"></i></button>
+                        </div>
+                        <div class="form-group">
+                            <label>Verification Code</label>
+                            <input type="text" id="loginCaptchaInput" required placeholder="Type the code above">
+                            <div class="form-error" id="loginCaptchaError">Captcha verification failed!</div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Login to Account</button>
+                    </form>
+                </div>
+
+                <div class="form-panel" id="panel-register">
+                    <form onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label>Unique Username</label>
+                            <input type="text" id="regUser" required placeholder="e.g. VenomFan1">
+                            <div class="form-error" id="regUserError">Username is already taken!</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="regEmail" required placeholder="you@example.com">
+                            <div class="form-error" id="regEmailError">Email is already registered!</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Unique Password</label>
+                            <input type="password" id="regPass" required placeholder="••••••••">
+                            <i class="fa-solid fa-eye password-toggle" onclick="togglePasswordVisibility('regPass', this)"></i>
+                        </div>
+
+                        <div class="captcha-container">
+                            <div class="captcha-box" id="regCaptchaText">XXXX</div>
+                            <button type="button" class="refresh-captcha" onclick="generateCaptcha('reg')"><i class="fa-solid fa-rotate-right"></i></button>
+                        </div>
+                        <div class="form-group">
+                            <label>Verification Code</label>
+                            <input type="text" id="regCaptchaInput" required placeholder="Type the code above">
+                            <div class="form-error" id="regCaptchaError">Captcha verification failed!</div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" style="background-color: var(--accent-blue);">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="owner-section">
+        <h2><i class="fa-solid fa-users"></i> Core Operations Team</h2>
+        <div class="owner-subtitle">The developers and administrators driving the infrastructure of VMS</div>
+        
+        <div class="team-container">
+            <div class="owner-card">
+                <div class="owner-avatar avatar-lead">V</div>
+                <div class="owner-info">
+                    <div class="owner-role">Founder</div>
+                    <div class="owner-name">Venom</div>
+                    <div class="owner-discord">
+                        <i class="fa-brands fa-discord"></i> beast_vms
+                    </div>
+                </div>
+            </div>
+
+            <div class="owner-card">
+                <div class="owner-avatar avatar-co">C</div>
+                <div class="owner-info">
+                    <div class="owner-role co">Co-Founder</div>
+                    <div class="owner-name">CyberxEagle</div>
+                    <div class="owner-discord">
+                        <i class="fa-brands fa-discord"></i> 77cybereagle77
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <span>&copy; 2026 Venoms Minecraft Store (VMS). All rights reserved. Built with precision.</span>
+            <a href="https://discord.gg/vms" target="_blank" class="footer-discord"><i class="fa-brands fa-discord"></i> discord.gg/vms</a>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-exclamation"></i> You must be registered and signed in to download resources!
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentCaptchas = { login: '', reg: '' };
+        let activeCategory = 'all';
+
+        // Comprehensive Plugin Array matching your precise custom armor configuration data
+        const pluginsData = [
+            { 
+                id: 1, 
+                type: 'plugins', 
+                subType: 'free', 
+                name: 'CustomArmorFree', 
+                icon: 'ChatGPT Image Jun 11, 2026, 12_09_43 AM.png',
+                desc: 'Custom Armor Addon (CustomItems Sub-Version). Optimized expansion core triggering hardcoded tier mechanics and exact crafting guards.', 
+                downloads: 2489, 
+                price: 'Free', 
+                // INSERT DIRECT JAR URL LINK HERE (e.g., 'https://example.com/CustomArmorFree.jar')
+                url: 'https://github.com/Venom7869/my-plugins/raw/refs/heads/main/CustomArmorFree-1.0.0-SNAPSHOT.jar', 
+                longDescription: `
+                    <p>An optimized, lightweight expansion module engineered specifically as an official sub-version for the <code>CustomItems</code> plugin ecosystem on Minecraft <strong>1.21.11</strong>. This addon introduces advanced, hardcoded set-bonus frameworks and specialized thermal processing mechanics.</p>
+                    
+                    <h3><i class="fa-solid fa-bolt" style="color: var(--accent-green);"></i> Core Addon Features</h3>
+                    <ul>
+                        <li><strong>CustomItems Integration:</strong> Designed specifically to expand upon base plugin concepts with seamless, lightweight performance hooks.</li>
+                        <li><strong>Exact-Match Recipe Guards:</strong> Built-in safeguards ensure custom armor pieces specifically require refined assets, preventing standard diamond/iron crafting bypasses.</li>
+                        <li><strong>Resource Pack Custom Model Data:</strong> Built-in, non-conflicting asset hooks ranging from <code>10001</code> to <code>40004</code> for streamlined texture deployments.</li>
+                    </ul>
+
+                    <h3><i class="fa-solid fa-gears" style="color: var(--accent-blue);"></i> Mechanical Breakdown</h3>
+                    
+                    <p><strong>1. Nautilus Exoskeleton Set</strong></p>
+                    <ul>
+                        <li>Protection Matrix: Equivalent to standard Golden Armor.</li>
+                        <li>Crafting Component: Standard <code>NAUTILUS_SHELL</code>.</li>
+                        <li>Full Set Passive: Grants permanent <strong>Water Breathing</strong>.</li>
+                    </ul>
+
+                    <p><strong>2. Refined Ruby Plate Set</strong></p>
+                    <ul>
+                        <li>Protection Matrix: Equivalent to standard Diamond Armor.</li>
+                        <li>Production Line: Smelt basic <code>DIAMOND</code> resources inside a standard Furnace to produce Custom Model Data Rubies (<code>10001</code>).</li>
+                        <li>Full Set Passive: Grants permanent <strong>Regeneration I</strong>.</li>
+                    </ul>
+
+                    <p><strong>3. Volatized Shulker Carapace Set</strong></p>
+                    <ul>
+                        <li>Protection Matrix: Equivalent to standard Iron Armor.</li>
+                        <li>Production Line: Heat a <code>SHULKER_SHELL</code> inside a Blast Furnace to create an edible Burnt Shulker Shell (<code>10002</code>).</li>
+                        <li>Consumable Stat: Restores 2 Hunger Bars (<strong>4 hunger points</strong>) upon consumption.</li>
+                        <li>Full Set Passive: Grants permanent <strong>Levitation</strong> for hands-free structural traversal.</li>
+                    </ul>
+
+                    <h3><i class="fa-solid fa-wrench" style="color: #ff007f;"></i> Quick Installation</h3>
+                    <ol>
+                        <li>Verify dependency version compatibility (Paper/Spigot 1.21.11).</li>
+                        <li>Drop the compiled expansion <code>.jar</code> directly into your <code>/plugins/</code> folder.</li>
+                    </ol>
+                    <p style="background: rgba(0, 191, 255, 0.1); padding: 10px; border-radius: 6px; border-left: 4px solid var(--accent-blue); margin-top: 15px;">
+                        <strong>HIGHLY RECOMMENDED</strong> — USE CAF (CustomArmorFree) RESOURCE PACK
+                    </p>
+                `
+            },
+            {
+                id: 2,
+                type: 'plugins',
+                subType: 'free',
+                name: 'JoinLeaveFX',
+                icon: 'jlfx.png',
+                desc: 'A lightweight, fully customizable join & leave message plugin — give your server some personality without the bloat.',
+                downloads: 1342,
+                price: 'Free',
+                // INSERT DIRECT JAR URL LINK HERE (e.g., 'https://example.com/JoinLeaveFX.jar')
+                url: 'https://github.com/Venom7869/my-plugins/raw/refs/heads/main/JoinLeaveFX-1.0.0.jar',
+                longDescription: `
+                    <p>JoinLeaveFX ✨ is a lightweight, fully customizable join &amp; leave message plugin — give your server some personality without the bloat.</p>
+
+                    <h3><i class="fa-solid fa-star" style="color: var(--accent-green);"></i> Features</h3>
+                    <ul>
+                        <li>Custom join/leave messages with support for multiple random variants per event</li>
+                        <li>Placeholders: player name, display name, world, online count, max players, and first-join detection</li>
+                        <li>Full color support — legacy <code>&amp;</code> codes and modern <code>&amp;#RRGGBB</code> hex colors</li>
+                        <li>Special first-time-join message, separate from regular join messages</li>
+                        <li>VIP-exclusive messages via permission (<code>joinleavefx.vip</code>) — perfect for donor perks</li>
+                        <li>Optional sounds on join/leave, fully configurable (sound type, volume, pitch)</li>
+                        <li>Optional particle effects at the player's location</li>
+                        <li>Welcome titles/subtitles shown only to the joining player, with custom timing</li>
+                        <li>Toggle to silence vanilla join/leave messages entirely</li>
+                        <li><code>/jlfx reload</code> command for instant config reloads — no restart needed</li>
+                    </ul>
+
+                    <h3><i class="fa-solid fa-question" style="color: var(--accent-blue);"></i> Why JoinLeaveFX?</h3>
+                    <p>No bloat, no unnecessary dependencies, no scheduled tasks running in the background — just clean event-driven code that does exactly what it's configured to do. Everything is controlled through one easy-to-edit <code>config.yml</code>.</p>
+
+                    <h3><i class="fa-solid fa-wrench" style="color: #ff007f;"></i> Compatibility</h3>
+                    <ul>
+                        <li>Compatible with: Spigot/Paper 1.21.x</li>
+                        <li>Dependencies: None required (PlaceholderAPI optional)</li>
+                    </ul>
+                `
+            },
+            {
+                id: 3,
+                type: 'resourcepacks',
+                subType: 'free',
+                name: 'Caf (CustomArmorFree) Resource Pack',
+                icon: 'ChatGPT Image Jun 11, 2026, 12_09_43 AM.png',
+                desc: 'The official companion resource pack for the CustomArmorFree plugin — adds custom textures for the Nautilus Exoskeleton, Refined Ruby Plate, and Volatized Shulker Carapace armor sets.',
+                downloads: 1876,
+                price: 'Free',
+                // INSERT DIRECT RESOURCE PACK ZIP URL LINK HERE (e.g., 'https://example.com/CafResourcePack.zip')
+                url: '#',
+                longDescription: `
+                    <p>The <strong>Caf (CustomArmorFree) Resource Pack</strong> is a highly recommended addition to use alongside the <strong>CustomArmorFree</strong> plugin. It supplies the custom textures and models needed to bring every custom armor set in the plugin to life — without it, custom items will fall back to vanilla textures.</p>
+
+                    <h3><i class="fa-solid fa-palette" style="color: var(--accent-green);"></i> What's Included</h3>
+                    <ul>
+                        <li>Full custom textures for the <strong>Nautilus Exoskeleton Set</strong> (Water Breathing armor)</li>
+                        <li>Full custom textures for the <strong>Refined Ruby Plate Set</strong>, including the Custom Model Data Ruby item (<code>10001</code>)</li>
+                        <li>Full custom textures for the <strong>Volatized Shulker Carapace Set</strong>, including the Burnt Shulker Shell item (<code>10002</code>)</li>
+                        <li>All custom model data hooks aligned with CustomArmorFree's range (<code>10001</code>–<code>40004</code>) for conflict-free deployment</li>
+                        <li>Crisp, hand-tuned textures designed to match the vanilla Minecraft 1.21.x art style</li>
+                    </ul>
+
+                    <h3><i class="fa-solid fa-wrench" style="color: var(--accent-blue);"></i> Quick Installation</h3>
+                    <ol>
+                        <li>Download the resource pack <code>.zip</code> file.</li>
+                        <li>Place it in your server's <code>/server-resource-packs/</code> folder, or upload it to a hosting service to obtain a direct link.</li>
+                        <li>Enable resource pack prompting in your <code>server.properties</code> using the file's URL and SHA-1 hash, or distribute it to players manually.</li>
+                    </ol>
+
+                    <p style="background: rgba(0, 255, 102, 0.1); padding: 10px; border-radius: 6px; border-left: 4px solid var(--accent-green); margin-top: 15px;">
+                        <strong>PAIRS PERFECTLY</strong> — A highly recommended addition to use with the <strong>CustomArmorFree (CAF) Plugin</strong> for the complete custom armor experience.
+                    </p>
+                `
+            },
+            {
+                type: 'plugins',
+                subType: 'free',
+                name: "Venom's CCTV",
+                icon: 'venomscctv.png',
+                desc: 'Advanced security camera system for Paper 1.21.1 — create cameras, view live via spectator mode, and monitor your server with a powerful GUI. 100+ cameras with zero lag.',
+                downloads: 987,
+                price: 'Free',
+                // INSERT DIRECT JAR URL LINK HERE (e.g., 'https://example.com/VenomsCCTV.jar')
+                url: '#',
+                longDescription: `
+                    <p>🎥 <strong>Venom's CCTV</strong> is an advanced security camera system for Paper 1.21.1. Place cameras anywhere, view live feeds in a fully locked spectator perspective, and manage everything through a clean security monitor GUI.</p>
+
+                    <h3><i class="fa-solid fa-video" style="color: var(--accent-green);"></i> Features</h3>
+                    <ul>
+                        <li>Create cameras at any location with <code>/cctv create &lt;name&gt;</code></li>
+                        <li>Live viewing via spectator mode with fully locked perspective</li>
+                        <li>Security monitor GUI with pagination, auto-refresh, and camera details</li>
+                        <li>Anti-abuse protection — no moving, interacting, or commands while viewing</li>
+                        <li>Persistent storage — cameras survive restarts (auto-save every 60s)</li>
+                        <li>Configurable — world limits, viewing timeout, custom messages</li>
+                        <li>100+ camera support with zero lag</li>
+                    </ul>
+
+                    <h3><i class="fa-solid fa-terminal" style="color: var(--accent-blue);"></i> Commands</h3>
+                    <ul>
+                        <li><code>/cctv create &lt;name&gt;</code> — Place camera at your location</li>
+                        <li><code>/cctv remove &lt;name&gt;</code> — Delete a camera</li>
+                        <li><code>/cctv rename &lt;old&gt; &lt;new&gt;</code> — Rename a camera</li>
+                        <li><code>/cctv list</code> — View all cameras</li>
+                        <li><code>/cctv monitor</code> — Open security monitor GUI</li>
+                        <li><code>/cctv exit</code> — Stop viewing camera</li>
+                        <li><code>/cctv reload</code> — Reload config</li>
+                    </ul>
+
+                    <h3><i class="fa-solid fa-shield-halved" style="color: #ff007f;"></i> Permissions</h3>
+                    <ul>
+                        <li><code>venomscctv.admin</code> — Full access (all commands)</li>
+                        <li><code>venomscctv.create</code> — Create cameras</li>
+                        <li><code>venomscctv.remove</code> — Remove cameras</li>
+                        <li><code>venomscctv.monitor</code> — Use monitor &amp; view feeds</li>
+                    </ul>
+
+                    <p style="background: rgba(0, 255, 102, 0.1); padding: 10px; border-radius: 6px; border-left: 4px solid var(--accent-green); margin-top: 15px;">
+                        Zero setup. Drop in, create cameras, start monitoring.
+                    </p>
+                `
+            }
+        ];
+
+        window.onload = function() {
+            const session = sessionStorage.getItem('activeUser');
+            if (session) {
+                currentUser = JSON.parse(session);
+                updateAuthUI();
+            }
+            renderStoreItems();
+            generateCaptcha('login');
+            generateCaptcha('reg');
+        };
+
+        function selectCategory(categoryKey, elementBtn) {
+            document.querySelectorAll('.category-box').forEach(btn => btn.classList.remove('active'));
+            elementBtn.classList.add('active');
+            activeCategory = categoryKey;
+            
+            const labelMap = {
+                all: 'All Items', plugins: 'Plugins', mods: 'Mods', modpacks: 'Modpacks', resourcepacks: 'Resource Packs'
+            };
+            document.getElementById('activeCategoryLabel').innerText = labelMap[categoryKey];
+            renderStoreItems();
+        }
+
+        function renderStoreItems() {
+            const grid = document.getElementById('inventory-grid');
+            const searchKeyword = document.getElementById('searchBar').value.toLowerCase();
+            
+            const filteredData = pluginsData.filter(item => {
+                const matchesCategory = (activeCategory === 'all' || item.type === activeCategory);
+                const matchesSearch = item.name.toLowerCase().includes(searchKeyword) || item.desc.toLowerCase().includes(searchKeyword);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filteredData.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-plugins">
+                        <i class="fa-solid fa-box-open" style="font-size: 2.5rem; margin-bottom: 12px; color: var(--text-muted);"></i>
+                        <br>No resources found matching your current selection parameters.
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = filteredData.map(item => {
+                const isPaid = item.subType === 'paid';
+                return `
+                    <div class="plugin-card" onclick="openProjectPage(${item.id})">
+                        <div>
+                            <div class="plugin-card-meta">
+                                <img src="${item.icon}" alt="${item.name} Icon" class="plugin-card-icon">
+                                <div class="plugin-card-title-block">
+                                    <div class="plugin-name">${item.name}</div>
+                                    <span class="plugin-tag ${isPaid ? 'tag-paid' : 'tag-free'}">${isPaid ? item.price : 'Free'}</span>
+                                </div>
+                            </div>
+                            <div class="plugin-desc">${item.desc}</div>
+                        </div>
+                        <div class="plugin-footer">
+                            <div class="downloads"><i class="fa-solid fa-download"></i> ${item.downloads.toLocaleString()}</div>
+                            <div class="view-details-txt">View Resource <i class="fa-solid fa-arrow-right"></i></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterItems() {
+            renderStoreItems();
+        }
+
+        /* --- MODRINTH MODAL NAVIGATION LOGIC ENGINE --- */
+        function openProjectPage(resourceId) {
+            const resource = pluginsData.find(item => item.id === resourceId);
+            if (!resource) return;
+
+            // Map and bind metadata properties to target window containers
+            document.getElementById('modalProjectIcon').src = resource.icon;
+            document.getElementById('modalProjectName').innerText = resource.name;
+            document.getElementById('modalProjectCategory').innerHTML = `<i class="fa-solid fa-cube"></i> ${resource.type.toUpperCase()}`;
+            document.getElementById('modalProjectLicense').innerHTML = `<i class="fa-solid fa-certificate"></i> ${resource.price}`;
+            document.getElementById('modalProjectDownloads').innerText = resource.downloads.toLocaleString();
+            document.getElementById('modalProjectDescription').innerHTML = resource.longDescription;
+
+            // Direct file download pipeline configuration
+            const downBtn = document.getElementById('modalDownloadBtn');
+            downBtn.href = resource.url;
+            
+            // Intercept link handling to strictly implement the authentication check requirement
+            downBtn.onclick = function(event) {
+                if (!currentUser) {
+                    event.preventDefault(); // Stop file drop sequence
+                    showToast();
+                }
+            };
+
+            document.getElementById('projectPageOverlay').classList.add('active');
+        }
+
+        function closeProjectPage(e) {
+            if (e === null || e.target === document.getElementById('projectPageOverlay')) {
+                document.getElementById('projectPageOverlay').classList.remove('active');
+            }
+        }
+
+        function togglePasswordVisibility(inputId, eyeIcon) {
+            const passwordInput = document.getElementById(inputId);
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
+        }
+
+        function generateCaptcha(type) {
+            const characters = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghkmnpqrstuvwxyz23456789';
+            let generatedCode = '';
+            for (let i = 0; i < 5; i++) {
+                generatedCode += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            currentCaptchas[type] = generatedCode;
+            document.getElementById(`${type}CaptchaText`).innerText = generatedCode;
+        }
+
+        function openAuthModal() {
+            if(currentUser) {
+                currentUser = null;
+                sessionStorage.removeItem('activeUser');
+                updateAuthUI();
+                return;
+            }
+            document.getElementById('authModal').classList.add('active');
+            generateCaptcha('login');
+            generateCaptcha('reg');
+        }
+
+        function closeAuthModal(e) {
+            if(e === null || e.target === document.getElementById('authModal')) {
+                document.getElementById('authModal').classList.remove('active');
+                clearFormErrors();
+            }
+        }
+
+        function switchTab(type) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+            clearFormErrors();
+            document.getElementById(`tab-${type}`).classList.add('active');
+            document.getElementById(`panel-${type}`).classList.add('active');
+            generateCaptcha(type);
+        }
+
+        function clearFormErrors() {
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('loginCaptchaError').style.display = 'none';
+            document.getElementById('regUserError').style.display = 'none';
+            document.getElementById('regEmailError').style.display = 'none';
+            document.getElementById('regCaptchaError').style.display = 'none';
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            clearFormErrors();
+
+            const username = document.getElementById('regUser').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const captchaInput = document.getElementById('regCaptchaInput').value.trim();
+
+            if (captchaInput !== currentCaptchas['reg']) {
+                document.getElementById('regCaptchaError').style.display = 'block';
+                generateCaptcha('reg');
+                return;
+            }
+
+            let database = JSON.parse(localStorage.getItem('userDB')) || [];
+            if(database.some(user => user.username.toLowerCase() === username.toLowerCase())) {
+                document.getElementById('regUserError').style.display = 'block';
+                return;
+            }
+            if(database.some(user => user.email === email)) {
+                document.getElementById('regEmailError').style.display = 'block';
+                return;
+            }
+
+            const newUser = { username, email, password: document.getElementById('regPass').value };
+            database.push(newUser);
+            localStorage.setItem('userDB', JSON.stringify(database));
+            currentUser = newUser;
+            sessionStorage.setItem('activeUser', JSON.stringify(newUser));
+            
+            e.target.reset();
+            closeAuthModal(null);
+            updateAuthUI();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            clearFormErrors();
+
+            const loginInput = document.getElementById('loginUser').value.trim().toLowerCase();
+            const loginPass = document.getElementById('loginPass').value;
+            const captchaInput = document.getElementById('loginCaptchaInput').value.trim();
+
+            if (captchaInput !== currentCaptchas['login']) {
+                document.getElementById('loginCaptchaError').style.display = 'block';
+                generateCaptcha('login');
+                return;
+            }
+
+            let database = JSON.parse(localStorage.getItem('userDB')) || [];
+            const userMatch = database.find(user => 
+                (user.username.toLowerCase() === loginInput || user.email === loginInput) && user.password === loginPass
+            );
+
+            if(userMatch) {
+                currentUser = userMatch;
+                sessionStorage.setItem('activeUser', JSON.stringify(userMatch));
+                e.target.reset();
+                closeAuthModal(null);
+                updateAuthUI();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+                generateCaptcha('login');
+            }
+        }
+
+        function updateAuthUI() {
+            const authBtn = document.getElementById('authNavBtn');
+            const userDisplay = document.getElementById('userDisplay');
+            const usernameVal = document.getElementById('usernameVal');
+
+            if(currentUser) {
+                authBtn.innerText = "Sign Out";
+                authBtn.style.borderColor = "var(--danger)";
+                authBtn.style.color = "var(--danger)";
+                usernameVal.innerText = currentUser.username;
+                userDisplay.style.display = "flex";
+            } else {
+                authBtn.innerText = "Sign In / Register";
+                authBtn.style.borderColor = "var(--accent-green)";
+                authBtn.style.color = "var(--accent-green)";
+                userDisplay.style.display = "none";
+            }
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 4000);
+        }
+    </script>
+</body>
+</html>
